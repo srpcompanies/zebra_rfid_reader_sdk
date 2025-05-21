@@ -21,6 +21,7 @@ class MethodChannelZebraRfidReaderSdk extends ZebraRfidReaderSdkPlatform {
     List<ReaderDevice> readers = [];
 
     for (var i = 0; i < json.length; i++) {
+      print("Reader[${i}] JSON: ${json[i]}");
       readers.add(ReaderDevice.fromJson(json[i] as Map<Object?, Object?>));
     }
 

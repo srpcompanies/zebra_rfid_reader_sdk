@@ -1,2 +1,1 @@
 rootProject.name = 'zebra_rfid_reader_sdk'
-include ':RFIDAPI3Library'

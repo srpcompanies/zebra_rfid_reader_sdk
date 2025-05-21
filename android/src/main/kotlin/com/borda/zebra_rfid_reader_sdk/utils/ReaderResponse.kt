@@ -14,8 +14,9 @@ import com.google.gson.Gson
 object ReaderResponse {
     private var connectionStatus: ConnectionStatus = ConnectionStatus.notConnected
     private var name: String? = null
-    private var batteryLevel: String? = null
+    private var batteryLevel: Int? = null
     private var antennaRange: IntArray? = null
+    private var serialNumber: String? = null
 
     /**
      * Update the reader connection status
@@ -40,7 +41,7 @@ object ReaderResponse {
      *
      * @param batteryLevel
      */
-    fun setBatteryLevel(batteryLevel: String?) {
+    fun setBatteryLevel(batteryLevel: Int?) {
         this.batteryLevel = batteryLevel
     }
 
@@ -77,10 +78,20 @@ object ReaderResponse {
     fun setAntennaRange(antennaRange: IntArray?) {
         this.antennaRange = antennaRange
     }
+
+    /**
+     * Update the serialNumber
+     *
+     * @param serialNumber
+     */
+    fun setSerialNumber(serialNumber: String?) {
+        this.serialNumber = serialNumber
+    }
+
     /**
      *  Return the existing singleton object itself
      */
     fun toJson(): String {
-        return Gson().toJson(BordaReaderDevice(connectionStatus, name, batteryLevel, antennaRange))
+        return Gson().toJson(BordaReaderDevice(connectionStatus, name, batteryLevel, antennaRange, serialNumber))
     }
 }

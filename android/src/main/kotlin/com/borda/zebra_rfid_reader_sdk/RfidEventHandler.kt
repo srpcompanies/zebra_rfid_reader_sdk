@@ -3,6 +3,7 @@ package com.borda.zebra_rfid_reader_sdk
 import android.util.Log
 import com.borda.zebra_rfid_reader_sdk.utils.*
 import com.zebra.rfid.api3.*
+import com.zebra.rfid.api3.Events
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -54,12 +55,13 @@ class RfidEventHandler(
 
         /// Battery Event
         if (rfidStatusEvents.StatusEventData.statusEventType === STATUS_EVENT_TYPE.BATTERY_EVENT) {
-            val batteryData: Events.BatteryData = rfidStatusEvents.StatusEventData.BatteryData
+
+            val batteryData: IEvents.BatteryData = rfidStatusEvents.StatusEventData.BatteryData
             Log.d(LOG_TAG, "Battery Event: $batteryData")
             Log.d(LOG_TAG, "IS CHARGING -> ${batteryData.charging}")
 
             ReaderResponse.setConnectionStatus(ConnectionStatus.connected)
-            ReaderResponse.setBatteryLevel(batteryData.level.toString())
+            ReaderResponse.setBatteryLevel(batteryData.level)
             tagHandlerEvent.sendEvent(ReaderResponse.toJson())
 
         }
