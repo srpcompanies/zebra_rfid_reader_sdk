@@ -73,4 +73,10 @@ class ZebraRfidReaderSdk {
   Stream<dynamic> get readTags {
     return ZebraRfidReaderSdkPlatform.instance.readTags;
   }
+
+  /// turn the radio power on or off so we can permit/disallow scanning of
+  /// tags
+  Future<void> setRadioPower(bool radioPowerOn) async {
+    await ZebraRfidReaderSdkPlatform.instance.setRadioPower(radioPowerOn);
+  }
 }

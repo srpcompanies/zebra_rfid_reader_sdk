@@ -83,10 +83,12 @@ class RfidEventHandler(
 
             if (rfidStatusEvents.StatusEventData.HandheldTriggerEventData.handheldEvent === HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_PRESSED) {
                 Log.d(LOG_TAG, "HANDHELD_TRIGGER_PRESSED")
+                tagHandlerEvent.sendEvent("{\"triggerPressed\": true}")
                 onTriggerPressed()
             }
             if (rfidStatusEvents.StatusEventData.HandheldTriggerEventData.handheldEvent === HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_RELEASED) {
                 Log.d(LOG_TAG, "HANDHELD_TRIGGER_RELEASED")
+                tagHandlerEvent.sendEvent("{\"triggerPressed\": false}")
                 onTriggerReleased()
             }
         }
@@ -103,11 +105,13 @@ class RfidEventHandler(
             var triggerMode: TriggerMode = BordaHandheldTrigger.getMode()
 
             if (triggerMode == TriggerMode.INVENTORY_PERFORM) {
+                Log.d(LOG_TAG, "onTriggerPressed, calling Actions.Inventory.perform()")
                 reader.Actions.Inventory.perform()
                 Thread.sleep(500);
 
 
             } else if (triggerMode == TriggerMode.TAG_LOCATIONING_PERFORM) {
+                Log.d(LOG_TAG, "onTriggerPressed, calling Actions.TagLocationing.perform()")
                 val tagLocationing = TagLocationingResponse.getTag()
                 reader.Actions.TagLocationing.Perform(tagLocationing, null, null);
             }

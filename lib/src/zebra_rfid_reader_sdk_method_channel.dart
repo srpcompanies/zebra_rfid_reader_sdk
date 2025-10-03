@@ -84,4 +84,9 @@ class MethodChannelZebraRfidReaderSdk extends ZebraRfidReaderSdkPlatform {
   Stream<dynamic> get readTags {
     return _readTagsEventChannel.receiveBroadcastStream();
   }
+
+  /// enable/disable radio power to stop tag scanning
+  Future<void> setRadioPower(bool radioPowerOn) async {
+    await _methodChannel.invokeMethod('setRadioPower', {'state': radioPowerOn});
+  }
 }

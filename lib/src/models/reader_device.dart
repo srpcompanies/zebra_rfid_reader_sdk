@@ -3,7 +3,7 @@ enum ConnectionStatus { connected, disconnected, connecting, notConnected, faile
 class ReaderDevice {
   final ConnectionStatus connectionStatus;
   final String? name;
-  final String? batteryLevel;
+  final int? batteryLevel;
   final List<dynamic>?  antennaRange;
   final String? serialNumber;
 
@@ -32,7 +32,7 @@ class ReaderDevice {
               '${json['connectionStatus']}'.toString().toLowerCase(),
           orElse: () => ConnectionStatus.notConnected),
       name: json['name'] as String?,
-      batteryLevel: json['batteryLevel'] as String?,
+      batteryLevel: json['batteryLevel'] as int?,
       antennaRange: json['antennaRange'] as List<dynamic>?,
       serialNumber: json['serialNumber'] as String?,
     );
@@ -52,7 +52,7 @@ class ReaderDevice {
     return ReaderDevice(
       connectionStatus: ConnectionStatus.notConnected,
       name: '',
-      batteryLevel: '',
+      batteryLevel: 0,
       antennaRange: [120,300],
       serialNumber: '',
     );

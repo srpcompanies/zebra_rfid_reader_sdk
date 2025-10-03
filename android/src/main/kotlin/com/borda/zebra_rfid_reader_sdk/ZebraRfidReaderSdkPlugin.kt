@@ -124,6 +124,13 @@ class ZebraRfidReaderSdkPlugin : FlutterPlugin, MethodCallHandler {
                 result.success(Gson().toJson(dataList))
             }
 
+            // enable/disable radio power
+            "setRadioPower" -> {
+                val state = call.argument<Boolean>("state")!!
+                Log.d(LOG_TAG, "setRadioPower called with state -> $state")
+                connectionHelper.setPowerState(state)
+            }
+
             else -> result.notImplemented()
         }
 
