@@ -100,12 +100,35 @@ class ZebraRfidReaderSdkPlugin : FlutterPlugin, MethodCallHandler {
                     val device = BordaReaderDevice(
                         ConnectionStatus.notConnected,
                         reader.name.toString(),
-                        null,
-                        null
+                        null,       // battery level
+                        null,       // antenna settings
+                        reader.serialNumber.toString()
                     )
+
+                    // additional look ups, if we can
+                    if (reader.getRFIDReader() != null) {
+                        if (reader.getRFIDReader().isConnected() ) {
+                            device.connectionStatus = ConnectionStatus.connected
+
+                            if (reader.getRFIDReader().Config != null &&
+                                reader.getRFIDReader().Config.getBatteryStats() != null
+                            )
+                                device.batteryLevel =
+                                    reader.getRFIDReader().Config.getBatteryStats()
+                                        .getPercentage()       // battery level
+                        }
+                    }
+
                     dataList.add(device)
                 }
                 result.success(Gson().toJson(dataList))
+            }
+
+            // enable/disable radio power
+            "setRadioPower" -> {
+                val state = call.argument<Boolean>("state")!!
+                Log.d(LOG_TAG, "setRadioPower called with state -> $state")
+                connectionHelper.setPowerState(state)
             }
 
             else -> result.notImplemented()

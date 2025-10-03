@@ -7,7 +7,7 @@ class TagDataModel {
     required this.lastSeenTime,
   });
 
-  factory TagDataModel.fromJson(Map<Object?, Object?> json) {
+  factory TagDataModel.fromJson(Map<String, dynamic> json) {
     return TagDataModel(
       tagId: json['tagId'] as String,
       lastSeenTime: json['lastSeenTime'] as String,

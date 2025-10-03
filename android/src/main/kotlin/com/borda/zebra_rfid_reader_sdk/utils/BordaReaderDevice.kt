@@ -11,18 +11,34 @@ import com.google.gson.annotations.SerializedName
  */
 class BordaReaderDevice {
     @SerializedName("connectionStatus")
-    private var connectionStatus: ConnectionStatus = ConnectionStatus.notConnected
+    private var _connectionStatus: ConnectionStatus = ConnectionStatus.notConnected
     @SerializedName("name")
-    private var name: String? = null
+    private var _name: String? = null
     @SerializedName("batteryLevel")
-    private var batteryLevel: String? = null
+    private var _batteryLevel: Int? = null
     @SerializedName("antennaRange")
-    private var antennaRange: IntArray? = null
+    private var _antennaRange: IntArray? = null
+    @SerializedName("serialNumber")
+    private var _serialNumber: String? = null
 
-    constructor(connectionStatus: ConnectionStatus, name: String?, batteryLevel: String?, antennaRange: IntArray?) {
-        this.connectionStatus = connectionStatus
-        this.name = name
-        this.batteryLevel = batteryLevel
-        this.antennaRange = antennaRange
+    constructor(connectionStatus: ConnectionStatus, name: String?, batteryLevel: Int?, antennaRange: IntArray?, serialNumber: String?) {
+        this._connectionStatus = connectionStatus
+        this._name = name
+        this._batteryLevel = batteryLevel
+        this._antennaRange = antennaRange
+        this._serialNumber = serialNumber
     }
+
+    var connectionStatus: ConnectionStatus
+        get() = _connectionStatus
+        set(value) { _connectionStatus = value }
+
+    var batteryLevel: Int?
+        get() = _batteryLevel;
+        set(value) {
+            if (value == null)
+                _batteryLevel = value
+            else if (value >= 0 && value <= 100)
+                _batteryLevel = value;
+        }
 }

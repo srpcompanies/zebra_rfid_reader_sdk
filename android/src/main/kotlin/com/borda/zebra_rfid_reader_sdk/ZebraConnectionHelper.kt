@@ -103,7 +103,7 @@ class ZebraConnectionHelper(
 
             } catch (e: OperationFailureException) {
                 if (e.results == RFIDResults.RFID_READER_REGION_NOT_CONFIGURED) {
-                    setDefaultRegion("TUR", name, readerConfig)
+                    setDefaultRegion("USA", name, readerConfig)
                 }
 
                 e.printStackTrace()
@@ -111,6 +111,11 @@ class ZebraConnectionHelper(
                 ReaderResponse.setAsConnectionError()
                 tagHandlerEvent.sendEvent(ReaderResponse.toJson())
 
+            } catch (e: NullPointerException) {
+                e.printStackTrace();
+                Log.e(LOG_TAG, "CONNECTION FAILED 3 -> NULL pointer exception");
+                ReaderResponse.setAsConnectionError()
+                tagHandlerEvent.sendEvent(ReaderResponse.toJson())
             }
         }
     }
@@ -392,6 +397,32 @@ class ZebraConnectionHelper(
             else -> return
         }
         reader!!.Config.beeperVolume = config
+    }
+
+    /**
+     * Set the power to the RFID radio to be either on or off
+     *
+     * @param state If true, set the radio power ON, otherwise set it off.
+     */
+    @Synchronized
+    fun setPowerState(state: Boolean) {
+        if (reader != null && reader!!.isConnected) {
+            Log.d(LOG_TAG, "Reader is not null and *IS* connected, setting power state to  $state")
+            try {
+                if (state) {
+                    Log.d(LOG_TAG, "Setting power state to RADIO_POWER_STATE.ON")
+                    reader!!.Config.setRadioPowerState(RADIO_POWER_STATE.ON)
+                } else {
+                    Log.d(LOG_TAG, "Setting power state to RADIO_POWER_STATE.OFF")
+                    reader!!.Config.setRadioPowerState(RADIO_POWER_STATE.OFF)
+                }
+            } catch(e: OperationFailureException) {
+                e.printStackTrace()
+                Log.e(
+                    LOG_TAG, "setPowerState($state) -> OperationFailureException(" + e.getResults().toString() + "), msg: "+ e.vendorMessage
+                )
+            }
+        }
     }
 
     /**

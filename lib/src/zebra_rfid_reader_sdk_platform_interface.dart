@@ -97,4 +97,9 @@ abstract class ZebraRfidReaderSdkPlatform extends PlatformInterface {
   Stream<dynamic> get readTags {
     throw UnimplementedError('disconnect() has not been implemented.');
   }
+
+  /// enable/disable radio power to stop tag scanning
+  Future<void> setRadioPower(bool radioPowerOn) async {
+    throw UnimplementedError('setRadioPower() has not been implemented.');
+  }
 }
